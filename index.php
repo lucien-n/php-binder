@@ -1,8 +1,6 @@
 <?php
 require_once('./connection.php');
 
-$errors = "";
-
 if (isset($_POST["submit"])) {
     if (empty($_POST["content"])) {
         $errors = "Empty todo";
@@ -19,8 +17,6 @@ if (isset($_GET["del_todo"])) {
     $conn->query("DELETE FROM todos WHERE id='" . $todo_id . "'");
     header("location: index.php");
 }
-
-echo $errors;
 ?>
 
 <html>
