@@ -22,6 +22,14 @@ if (isset($_GET["del_todo"])) {
     $conn->query($sql); // * on éxécute la query
     header("location: index.php"); // * on recharge la page
 }
+if (isset($_REQUEST['id'])) {
+
+    header('location:update.php?id=' . $id);
+}
+
+
+
+
 ?>
 
 <html>
@@ -42,7 +50,8 @@ if (isset($_GET["del_todo"])) {
                 ?>
                 <li>
                     <?php echo $row["content"] ?>
-                    <a href="index.php?del_todo=<?php echo $row["id"] ?>">delete</a>
+                    <a href="update.php?id=<?php echo $row["id"] ?>"><button>Update</button></a>
+                    <a href="index.php?del_todo=<?php echo $row["id"] ?>"><button>Delete</button></a>
                     <?php
                     ?>
                 </li>
