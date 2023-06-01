@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Login</title>
+{% endblock%}
+{% block body %}
+<form action="/controllers/auth.php?login" method="POST">
+    <section>
+        <label for="email">Email</label>
+        <input class="border border-gray-500" type="text" id="email" name="email">
+    </section>
+    <section>
+        <label for="password">Password</label>
+        <input class="border border-gray-500" type="text" id="password" name="password">
+    </section>
+    <button class=" bg-slate-500 p-2" type="submit">Login</button>
+</form>
+{% endblock %}
