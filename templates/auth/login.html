@@ -6,13 +6,13 @@
 {% block body %}
 <form action="/controllers/auth.php?login" method="POST">
     <section>
-        <label for="email">Email</label>
-        <input class="border border-gray-500" type="text" id="email" name="email">
+        <label for="email">Username</label>
+        <input class="border border-gray-500" type="text" id="email" name="username">
     </section>
     <section>
         <label for="password">Password</label>
         <input class="border border-gray-500" type="text" id="password" name="password">
     </section>
-    <button class=" bg-slate-500 p-2" type="submit">Login</button>
+    <button class=" bg-slate-500 p-2" type="submit" name="login">Login</button>
 </form>
 {% endblock %}
