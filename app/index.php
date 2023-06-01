@@ -1,8 +1,7 @@
 <?php
-require_once('connection.php');
-require_once('twig.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/utils/connection.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/utils/twig.php');
 
-$template = $twig->load('index.html');
-
-echo $template->render(['name' => 'djeneba']);
+$index_html = $twig->load('index.html');
+echo $index_html->render(['name' => 'djeneba']);
 ?>
