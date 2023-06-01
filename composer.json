@@ -1,5 +1,6 @@
 {
     "require": {
-        "dotenv-org/phpdotenv-vault": "^0.1.0"
+        "dotenv-org/phpdotenv-vault": "^0.1.0",
+        "twig/twig": "^3.0"
     }
 }
