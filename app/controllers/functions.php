@@ -1,7 +1,8 @@
 <?php
 
 // generate UUid function
-function guidv4($data = null) {
+function guidv4($data = null)
+{
     // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
     $data = $data ?? random_bytes(16);
     assert(strlen($data) == 16);
@@ -55,7 +56,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     if ($stmt->num_rows > 0) {
         return "Username already exists, please try a different one";
     }
-
+    // gender transform to tinyint for the database 
     $genderValue = 0;
     if ($gender == 'male') {
         $genderValue = 1;
@@ -64,11 +65,23 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     } elseif ($gender == 'non-binary') {
         $genderValue = 3;
     }
+    // liked_gender transform to tinyint for the database 
+    $likedGenderValue = 0;
+    if ($liked_gender == 'male') {
+        $likedGenderValue = 1;
+    } elseif ($liked_gender == 'female') {
+        $likedGenderValue = 2;
+    } elseif ($liked_gender == 'non-binary') {
+        $likedGenderValue = 3;
+    }
 
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    //Hash password
+    $hashed_password = password_hash('sha24', PASSWORD_DEFAULT);
+    echo $hashed_password;
     $uuid = guidv4();
+    // post to the database
     $stmt = $conn->prepare("INSERT INTO users (uuid, username, email, password_hash, gender, liked_gender, age, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssisiss", $uuid, $username, $email, $hashed_password, $genderValue, $liked_gender, $age, $bio);
+    $stmt->bind_param("ssssssss", $uuid, $username, $email, $hashed_password, $genderValue, $likedGenderValue, $age, $bio);
     $stmt->execute();
 
     if ($stmt->affected_rows != 1) {
@@ -77,5 +90,35 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         return "success";
     }
 }
+
+// function connect() {
+//     $mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DATABASE);
+
+//     if ($mysqli->connect_error) {
+//         $error = $mysqli->connect_error;
+//         $error_date = date("Y-m-d H:i:s");
+//         $message = "{$error} | {$error_date} \r\n";
+//         file_put_contents("db-log.txt", $message, FILE_APPEND);
+//         return false;
+//     } else {
+//         return $mysqli;
+//     }
+// }
+
+function connect()
+{
+    global $conn;
+
+    if ($conn->connect_error) {
+        $error = $conn->connect_error;
+        $error_date = date("Y-m-d H:i:s");
+        $message = "{$error} | {$error_date} \r\n";
+        file_put_contents("db-log.txt", $message, FILE_APPEND);
+        return false;
+    } else {
+        return $conn;
+    }
+}
+
 
 ?>
