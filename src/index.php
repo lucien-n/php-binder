@@ -1,5 +1,8 @@
 <?php
-require_once('connection.php')
-?>
+require_once('connection.php');
+require_once('twig.php');
 
-<h1>Hello</h1>
+$template = $twig->load('index.html');
+
+echo $template->render(['name' => 'djeneba']);
+?>
