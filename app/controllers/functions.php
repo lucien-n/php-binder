@@ -76,8 +76,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     }
 
     //Hash password
-    $hashed_password = password_hash('sha24', PASSWORD_DEFAULT);
-    echo $hashed_password;
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $uuid = guidv4();
     // post to the database
     $stmt = $conn->prepare("INSERT INTO users (uuid, username, email, password_hash, gender, liked_gender, age, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -117,6 +116,41 @@ function connect()
         return false;
     } else {
         return $conn;
+    }
+}
+function login($username, $password)
+{
+    $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
+    $username = trim($username);
+    $password = trim($password);
+
+    if ($username == "" || $password == "") {
+        return "Both fields are required";
+    }
+
+    $username = htmlspecialchars(trim($username), ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars(trim($password), ENT_QUOTES, 'UTF-8');
+
+    $sql = "SELECT username, password_hash FROM users WHERE username = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc(); // extract the records from the result
+
+    if ($data == NULL) {
+        return 'Wrong username or password';
+    }
+
+    if (!isset($data['password_hash'])) {
+        return 'Wrong username or password';
+    }
+
+    if (password_verify($password, $data["password_hash"]) == FALSE) {
+        return 'Wrong username or password';
+    } else {
+        $_SESSION["user"] = $username;
+        return true;
     }
 }
 
