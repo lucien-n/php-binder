@@ -1,5 +1,5 @@
 <?php
-
+/* Register */
 // generate UUid function
 function guidv4($data = null)
 {
@@ -104,20 +104,22 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
 //     }
 // }
 
-function connect()
-{
-    global $conn;
+// function connect()
+// {
+//     global $conn;
 
-    if ($conn->connect_error) {
-        $error = $conn->connect_error;
-        $error_date = date("Y-m-d H:i:s");
-        $message = "{$error} | {$error_date} \r\n";
-        file_put_contents("db-log.txt", $message, FILE_APPEND);
-        return false;
-    } else {
-        return $conn;
-    }
-}
+//     if ($conn->connect_error) {
+//         $error = $conn->connect_error;
+//         $error_date = date("Y-m-d H:i:s");
+//         $message = "{$error} | {$error_date} \r\n";
+//         file_put_contents("db-log.txt", $message, FILE_APPEND);
+//         return false;
+//     } else {
+//         return $conn;
+//     }
+// }
+
+/* Login */
 function login($username, $password)
 {
     $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
@@ -153,6 +155,9 @@ function login($username, $password)
         return true;
     }
 }
-
+/* Logout */
+function logout() {
+    unset($_SESSION['user']);
+}
 
 ?>

@@ -26,6 +26,8 @@ if (isset($_POST['register'])) {
 }
 
 if (isset($_GET['logout'])) {
-
+    logout();
+    header("Location: login.php");
+    exit;
 }
 ?>
