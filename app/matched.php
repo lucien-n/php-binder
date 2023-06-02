@@ -6,6 +6,10 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/models/user_binder.php");
 if (!isset($_GET["binder"]))
     return;
 
+session_start();
+
+$user = $_SESSION["user"];
+
 $binder_uuid = $_GET["binder"];
 $statement = $conn->prepare("SELECT * FROM users WHERE uuid = ?");
 $statement->execute([$binder_uuid]);
