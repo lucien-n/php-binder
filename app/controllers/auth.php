@@ -8,6 +8,7 @@ if (isset($_POST['login'])) {
     if ($response === true) {
         $message = "Login successful";
         echo "Login successful";
+        header("Location: ../welcome.php");
         exit;
     } else {
         echo "Login failed";
@@ -25,9 +26,9 @@ if (isset($_POST['register'])) {
     }
 }
 
-if (isset($_GET['logout'])) {
+if (isset($_POST['logout'])) {
     logout();
-    header("Location: login.php");
+    header("Location: /auth/login.php");
     exit;
 }
 ?>

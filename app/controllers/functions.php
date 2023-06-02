@@ -1,5 +1,8 @@
 <?php
-/* Register */
+session_start();
+require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
+
+//? Register **
 // generate UUid function
 function guidv4($data = null)
 {
@@ -90,36 +93,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     }
 }
 
-// function connect() {
-//     $mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DATABASE);
-
-//     if ($mysqli->connect_error) {
-//         $error = $mysqli->connect_error;
-//         $error_date = date("Y-m-d H:i:s");
-//         $message = "{$error} | {$error_date} \r\n";
-//         file_put_contents("db-log.txt", $message, FILE_APPEND);
-//         return false;
-//     } else {
-//         return $mysqli;
-//     }
-// }
-
-// function connect()
-// {
-//     global $conn;
-
-//     if ($conn->connect_error) {
-//         $error = $conn->connect_error;
-//         $error_date = date("Y-m-d H:i:s");
-//         $message = "{$error} | {$error_date} \r\n";
-//         file_put_contents("db-log.txt", $message, FILE_APPEND);
-//         return false;
-//     } else {
-//         return $conn;
-//     }
-// }
-
-/* Login */
+//? Login 
 function login($username, $password)
 {
     $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
@@ -133,7 +107,7 @@ function login($username, $password)
     $username = htmlspecialchars(trim($username), ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars(trim($password), ENT_QUOTES, 'UTF-8');
 
-    $sql = "SELECT username, password_hash FROM users WHERE username = ?";
+    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -151,13 +125,18 @@ function login($username, $password)
     if (password_verify($password, $data["password_hash"]) == FALSE) {
         return 'Wrong username or password';
     } else {
-        $_SESSION["user"] = $username;
+        // Start the session
+        $_SESSION["user"] = new User($data['id'], $data['uuid'], $data['username'], $data['password_hash'], $data['email'], $data['gender'], $data['liked_gender'], $data['image'], $data['age'], $data['bio'], $data['created_at'], $data['updated_at'], $data['last_seen']);
         return true;
     }
 }
-/* Logout */
-function logout() {
-    unset($_SESSION['user']);
+//? Logout 
+
+function logout()
+{
+    session_unset(); // Unset all session variables
+    session_destroy(); // Destroy the session
 }
+
 
 ?>
