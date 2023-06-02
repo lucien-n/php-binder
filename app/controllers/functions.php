@@ -1,6 +1,7 @@
 <?php
-session_start();
 require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
+
+session_start();
 
 //? Register **
 // generate UUid function
@@ -136,6 +137,7 @@ function logout()
 {
     session_unset(); // Unset all session variables
     session_destroy(); // Destroy the session
+    unset($_SESSION["user"]);
 }
 
 

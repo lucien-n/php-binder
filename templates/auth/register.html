@@ -1,69 +1,58 @@
-{% extends 'base.html' %} {% block body %} {% block head %}
+{% extends 'base.html' %}
+
+{% block head %}
 <title>Register</title>
 {% endblock%}
-<form
-  action="/controllers/auth.php?register"
-  method="POST"
-  enctype="multipart/form-data"
->
-  <section>
-    <label for="username">Username</label>
-    <input
-      class="border border-gray-500"
-      type="text"
-      id="username"
-      name="username"
-    />
-  </section>
-  <section>
-    <label for="email">Email</label>
-    <input class="border border-gray-500" type="text" id="email" name="email" />
-  </section>
-  <section>
-    <label for="password">Password</label>
-    <input
-      class="border border-gray-500"
-      type="password"
-      id="password"
-      name="password"
-    />
-  </section>
-  <section>
-    <label for="gender">Gender</label>
-    <select class="border border-gray-500" name="gender" id="gender">
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="non-binary">Non Binary</option>
-    </select>
-  </section>
-  <section>
-    <label for="liked_gender">Liked Gender</label>
-    <select
-      class="border border-gray-500"
-      name="liked_gender"
-      id="liked_gender"
-    >
-      <option value="male">Male</option>
-      <option value="female">Female</option>
-      <option value="everyone">Everyone</option>
-    </select>
-  </section>
-  <section>
-    <label for="age">Age</label>
-    <input class="border border-gray-500" type="number" id="age" name="age" />
-  </section>
-  <!-- <section>
-    <label for="image">Image</label>
-    <input class="border border-gray-500" type="file" id="image" name="image" />
-  </section>   -->
-  <section>
-    <label for="bio">Bio</label>
-    <textarea class="border border-gray-500" id="bio" name="bio"> </textarea>
-  </section>
-  <!-- TODO: image  -->
-  <button class="bg-slate-500 p-2" type="submit" name="register">
-    Register
-  </button>
-</form>
 
+{% block body %}
+<div class="w-full h-full flex flex-col items-center justify-center">
+  <div class="w-1/3 shadow-md rounded-md flex flex-col p-4">
+    <h1 class="text-center mx-auto w-full">Already have an account ? <a href="/auth/register.php" class="underline">Sign
+        in</a></h1>
+    <form action="/controllers/auth.php?register" method="POST" enctype="multipart/form-data"
+      class="w-full flex flex-col gap-4">
+      <section class="flex flex-col">
+        <label class="text-xl" for="username">Username</label>
+        <input class="border border-zinc-500 rounded-md p-2" type="text" id="username" name="username" />
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="email">Email</label>
+        <input class="border border-zinc-500 rounded-md p-2" type="text" id="email" name="email" />
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="password">Password</label>
+        <input class="border border-zinc-500 rounded-md p-2" type="password" id="password" name="password" />
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="gender">Gender</label>
+        <select class="border border-zinc-500 rounded-md p-2" name="gender" id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="non-binary">Non Binary</option>
+        </select>
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="liked_gender">Liked Gender</label>
+        <select class="border border-zinc-500 rounded-md p-2" name="liked_gender" id="liked_gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="everyone">Everyone</option>
+        </select>
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="age">Age</label>
+        <input class="border border-zinc-500 rounded-md p-2" type="number" id="age" name="age" />
+      </section>
+      <section class="flex flex-col">
+        <label class="text-xl" for="bio">Bio</label>
+        <textarea class="border border-zinc-500 rounded-md p-2" id="bio" name="bio"> </textarea>
+      </section>
+      <!-- TODO: image  -->
+      <div class="w-full flex items-center justify-center">
+        <button class="border px-4 border-orange-500 text-orange-500 rounded-md p-2 hover:bg-orange-100 hover:underline"
+          type="submit" name="register">Register</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
