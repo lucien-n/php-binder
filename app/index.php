@@ -8,6 +8,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
 session_start();
 
 $user = $_SESSION["user"];
+$binder_user = null;
 
 if (isset($user) && $user instanceof User) {
     $user_has_pending_likes = 0;
