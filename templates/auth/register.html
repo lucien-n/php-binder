@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block body %} {% block head %}
+<title>Register</title>
+{% endblock%}
+<form
+  action="/controllers/auth.php?register"
+  method="POST"
+  enctype="multipart/form-data"
+>
+  <section>
+    <label for="username">Username</label>
+    <input
+      class="border border-gray-500"
+      type="text"
+      id="username"
+      name="username"
+    />
+  </section>
+  <section>
+    <label for="email">Email</label>
+    <input class="border border-gray-500" type="text" id="email" name="email" />
+  </section>
+  <section>
+    <label for="password">Password</label>
+    <input
+      class="border border-gray-500"
+      type="password"
+      id="password"
+      name="password"
+    />
+  </section>
+  <section>
+    <label for="gender">Gender</label>
+    <select class="border border-gray-500" name="gender" id="gender">
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="non-binary">Non Binary</option>
+    </select>
+  </section>
+  <section>
+    <label for="liked_gender">Liked Gender</label>
+    <select
+      class="border border-gray-500"
+      name="liked_gender"
+      id="liked_gender"
+    >
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="everyone">Everyone</option>
+    </select>
+  </section>
+  <section>
+    <label for="age">Age</label>
+    <input class="border border-gray-500" type="number" id="age" name="age" />
+  </section>
+  <!-- <section>
+    <label for="image">Image</label>
+    <input class="border border-gray-500" type="file" id="image" name="image" />
+  </section>   -->
+  <section>
+    <label for="bio">Bio</label>
+    <textarea class="border border-gray-500" id="bio" name="bio"> </textarea>
+  </section>
+  <!-- TODO: image  -->
+  <button class="bg-slate-500 p-2" type="submit" name="register">
+    Register
+  </button>
+</form>
+
+{% endblock %}
