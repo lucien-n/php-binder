@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/../vendor/autoload.php");
 
 $dotenv = Dotenv\Dotenv::createImmutable($_SERVER["DOCUMENT_ROOT"] . '/..');
@@ -9,9 +9,11 @@ $user = $_ENV["DB_USER"];
 $pass = $_ENV["DB_PASS"];
 $name = $_ENV["DB_NAME"];
 
-$conn = new mysqli($host, $user, $pass, $name);
+$conn = mysqli_connect($host, $user, $pass, $name);
 
-if ($conn -> connect_error) {
-    die('Couldn\'t connect to ' . $host . ": " . $conn->connect_error);
+if (!$conn) {
+    die('Couldn\'t connect to ' . $host . ': ' . mysqli_connect_error());
 }
+
+return $conn;
 ?>

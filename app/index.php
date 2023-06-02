@@ -33,9 +33,6 @@ if ($user_has_pending_likes == 1 && rand(1, 2) == 1) {
         $binder_user = null;
 }
 
-// $binder_user = new UserBinder("123uuid", "Katya", 0, 1, "https://placehold.co/600x400?text=Katya", 23, "I'm someone", 18289442, 18289442);
-
-
 $index_html = $twig->load('index.html');
 echo $index_html->render(['binder' => $binder_user]);
 ?>
