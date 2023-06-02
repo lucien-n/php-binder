@@ -9,9 +9,9 @@ $user = $_ENV["DB_USER"];
 $pass = $_ENV["DB_PASS"];
 $name = $_ENV["DB_NAME"];
 
-try {
-    $conn = new PDO('mysql:host=' . $host . ';dbname='. $name .'', $user, $pass);
-} catch (PDOException $e) {
-    die('Couldn\'t connect to ' . $host . ": " . $e->getMessage());
+$conn = new mysqli($host, $user, $pass, $name);
+
+if ($conn -> connect_error) {
+    die('Couldn\'t connect to ' . $host . ": " . $conn->connect_error);
 }
 ?>

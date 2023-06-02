@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="w-full h-full">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
     {% block head %}
     {% endblock%}
 </head>
 
-<body>
-    <h1>Hello from base</h1>
-    {% block body %}
-    {% endblock %}
+<body class="w-full h-full">
+    <div class="container w-full h-full mx-auto">
+        {% block body %}
+        {% endblock %}
+    </div>
 </body>
 
 </html>
