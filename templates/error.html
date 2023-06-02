@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Binder - Error</title>
+{% endblock %}
+
+{% block body %}
+<div class="w-full h-full flex flex-col items-center justify-center text-center">
+    <h1 class="text-4xl">Error</h1>
+    <h2 class="text-2xl">{{ error }}</h1>
+</div>
+{% endblock %}

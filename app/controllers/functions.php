@@ -1,8 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
 
-session_start();
-
 //? Register **
 // generate UUid function
 function guidv4($data = null)
@@ -27,56 +25,30 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     $args = array_map(function ($value) {
         return trim($value);
     }, $args);
-    foreach ($args as $value) {
-        if (empty($value)) {
-            return "All fields are required";
-        }
-    }
-    foreach ($args as $value) {
-        if (preg_match("/([<|>])/", $value)) {
-            return " <> characters are not allowed";
-        }
-    }
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return "Email is not valid";
-    }
 
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
-        return "Email already exists, please try a different one";
+        header("location: /error.php?error=Email+already+exists");
     }
 
-    if (strlen($username) > 50) {
-        return "Username is too long";
-    }
-
-    $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        return "Username already exists, please try a different one";
-    }
     // gender transform to tinyint for the database 
-    $genderValue = 0;
-    if ($gender == 'male') {
+    if ($gender == 'female') {
+        $genderValue = 0;
+    } elseif ($gender == 'male') {
         $genderValue = 1;
-    } elseif ($gender == 'female') {
-        $genderValue = 2;
     } elseif ($gender == 'non-binary') {
-        $genderValue = 3;
+        $genderValue = 2;
     }
     // liked_gender transform to tinyint for the database 
-    $likedGenderValue = 0;
-    if ($liked_gender == 'male') {
+    if ($liked_gender == 'female') {
+        $likedGenderValue = 0;
+    } elseif ($liked_gender == 'male') {
         $likedGenderValue = 1;
-    } elseif ($liked_gender == 'female') {
-        $likedGenderValue = 2;
     } elseif ($liked_gender == 'non-binary') {
-        $likedGenderValue = 3;
+        $likedGenderValue = 2;
     }
 
     //Hash password
@@ -88,45 +60,43 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     $stmt->execute();
 
     if ($stmt->affected_rows != 1) {
-        return "An error occurred. Please try again";
+        header("location: /error.php?error=An+error+occured");
+        return;
     } else {
+        header("location: /index.php");
         return "success";
     }
 }
 
 //? Login 
-function login($username, $password)
+function login($email, $password)
 {
     $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
-    $username = trim($username);
+    $email = trim($email);
     $password = trim($password);
 
-    if ($username == "" || $password == "") {
-        return "Both fields are required";
-    }
-
-    $username = htmlspecialchars(trim($username), ENT_QUOTES, 'UTF-8');
+    $email = htmlspecialchars(trim($email), ENT_QUOTES, 'UTF-8');
     $password = htmlspecialchars(trim($password), ENT_QUOTES, 'UTF-8');
 
-    $sql = "SELECT * FROM users WHERE username = ?";
+    $sql = "SELECT * FROM users WHERE email = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $username);
+    $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
     $data = $result->fetch_assoc(); // extract the records from the result
 
     if ($data == NULL) {
-        return 'Wrong username or password';
+        header('location: /error.php?error=Wrong+email+or+password');
     }
 
     if (!isset($data['password_hash'])) {
-        return 'Wrong username or password';
+        header('location: /error.php?error=Wrong+email+or+password');
     }
 
     if (password_verify($password, $data["password_hash"]) == FALSE) {
-        return 'Wrong username or password';
+        header('location: /error.php?error=Wrong+email+or+password');
+        return false;
     } else {
-        // Start the session
         $_SESSION["user"] = new User($data['id'], $data['uuid'], $data['username'], $data['password_hash'], $data['email'], $data['gender'], $data['liked_gender'], $data['image'], $data['age'], $data['bio'], $data['created_at'], $data['updated_at'], $data['last_seen']);
         return true;
     }

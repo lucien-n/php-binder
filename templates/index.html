@@ -22,14 +22,10 @@
             </svg>
             <p>Refresh</p>
         </a>
-        {% endif %}
-        {% else %}
-        <div class="flex text-center gap-4">
-            <a href="/auth/login.php" class="text-xl underline">Sign In</a>
-            |
-            <a href="/auth/register.php" class="text-xl underline">Create an account</a>
-        </div>
     </div>
+    {% endif %}
+    {% else %}
+    {% include 'landing.html' %}
     {% endif %}
 </div>
 {% endblock %}

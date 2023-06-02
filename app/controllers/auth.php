@@ -3,19 +3,18 @@ require "functions.php";
 require_once($_SERVER["DOCUMENT_ROOT"] . '/utils/twig.php');
 session_start();
 
-if (isset($_POST['login'])) {
-    $response = login($_POST['username'], $_POST['password']);
+if (isset($_GET['login'])) {
+    $response = login($_POST['email'], $_POST['password']);
     if ($response === true) {
-        $message = "Login successful";
-        echo "Login successful";
-        header("Location: /index.php");
+        header("location: /index.php");
         exit;
-    } else {
-        echo "Login failed";
     }
+
+    header('location: /error.php?error=Login+failed');
+    exit;
 }
 
-if (isset($_POST['register'])) {
+if (isset($_GET['register'])) {
     $username = $_POST['username'];
     $user_email = $_POST['email'];
     $user_password = $_POST['password'];
@@ -27,9 +26,11 @@ if (isset($_POST['register'])) {
 
     if ($response === "success") {
         login($username, $user_password);
+        header("location: /index.php");
         exit;
     } else {
-        echo "Registration failed";
+        header('location: /error.php?error=Registration+failed');
+        exit;
     }
 }
 
