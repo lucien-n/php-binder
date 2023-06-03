@@ -1,8 +1,15 @@
-{% extends 'base.html' %}
-
-{% block body %}
+{% extends 'base.html' %} {% block body %}
 <div class="w-full h-full flex flex-col items-center justify-center">
-    <h1 class="text-3xl">You just matched with {{ binder.getUsername() }} !</h1>
-    <p>Contact them: <a type="email" class="underline" href="{{binder.getEmail()}}">here</a></p>
+  <h1 class="text-3xl">You just matched with {{ binder.getUsername() }} !</h1>
+  <p>
+    Contact them:
+    <!-- <a href="mailto:{{ binder.getEmail() }}" class="underline">here</a> -->
+    <a type="email" class="underline" href="mailto:{{ email }}">{{ email }}</a>
+  </p>
+  <a
+    href="/chat.php?binder={{ binder.getUuid() }}"
+    class="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+    >Open Conversation</a
+  >
 </div>
 {% endblock %}

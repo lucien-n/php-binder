@@ -113,6 +113,8 @@ function logout()
     session_unset(); // Unset all session variables
     session_destroy(); // Destroy the session
     unset($_SESSION["user"]);
+    header("Location: /auth/login.php");
+    exit;
 }
 
 

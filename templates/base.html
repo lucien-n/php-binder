@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" class="w-full h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="icon" href="./svg/icons8-flame-16.png" type="image/png" /> -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-  {% block head %}
-  {% endblock%}
-</head>
+    <!-- <style>
+     * {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='80' style='fill:black;font-size:20px;'><text x='50%' y='30%' dominant-baseline='middle' text-anchor='middle'>🌸</text></svg>") 16 16, auto;
+        transition: cursor 0.5s ease-in-out;
+      }
+      *:hover {
+        cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='128' height='80' style='fill:black;font-size:20px;'><text x='50%' y='30%' dominant-baseline='middle' text-anchor='middle'>🌼</text></svg>") 16 16, auto;
+        transition: cursor 0.5s ease-in-out; ;
+      }
 
-<body class="w-full h-full overflow-scroll">
-  <header>
-    {% include 'navbar.html' with {user: user} %}
-  </header>
-  <main class="container w-full h-full mx-auto">
-    {% block body %}
-    {% endblock %}
-  </main>
-</body>
 
+    </style> -->
+
+    {% block head %} {% endblock%}
+  </head>
+
+  <body class="w-full h-full overflow-scroll">
+    <header>{% include 'navbar.html' with {user: user} %}</header>
+    <main class="container w-full h-full mx-auto">
+      {% block body %} {% endblock %}
+    </main>
+  </body>
 </html>

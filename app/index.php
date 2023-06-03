@@ -7,7 +7,9 @@ require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
 
 session_start();
 
-$user = $_SESSION["user"];
+// $user = $_SESSION["user"];
+$user = isset($_SESSION["user"]) ? $_SESSION["user"] : null;
+
 $binder_user = null;
 
 if (isset($user) && $user instanceof User) {
