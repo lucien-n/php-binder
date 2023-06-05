@@ -47,7 +47,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         $likedGenderValue = 0;
     } elseif ($liked_gender == 'male') {
         $likedGenderValue = 1;
-    } elseif ($liked_gender == 'non-binary') {
+    } elseif ($liked_gender == 'everyone') {
         $likedGenderValue = 2;
     }
 
