@@ -4,12 +4,10 @@
   <p>
     Contact them:
     <!-- <a href="mailto:{{ binder.getEmail() }}" class="underline">here</a> -->
-    <a type="email" class="underline" href="mailto:{{ email }}">{{ email }}</a>
+    <a type="email" class="underline" href="mailto:{{ binder.getEmail() }}">{{ email }}</a>
   </p>
-  <a
-    href="/chat.php?binder={{ binder.getUuid() }}"
-    class="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
-    >Open Conversation</a
-  >
+  <a href="/chat.php?binder={{ binder.getUuid() }}" class="bg-blue-500 text-white px-4 py-2 mt-4 rounded">Open
+    Conversation</a>
+  <a href="/" class="underline">Continue</a>
 </div>
 {% endblock %}

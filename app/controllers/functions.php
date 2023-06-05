@@ -70,9 +70,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     } elseif ($liked_gender == 'male') {
         $likedGenderValue = 1;
     } elseif ($liked_gender == 'everyone') {
-        $likedGenderValue = 3;
-    } else {
-        return "Invalid liked gender";
+        $likedGenderValue = 2;
     }
 
     // Hash password
