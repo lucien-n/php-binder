@@ -1,5 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_binder.php');
 
 //? Register **
 // generate UUid function
@@ -17,14 +18,27 @@ function guidv4($data = null)
     // Output the 36 character UUID.
     return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
 }
-function registerUser($username, $email, $password, $gender, $liked_gender, $age, $bio)
+function registerUser($username, $email, $password, $gender, $liked_gender, $age, $bio, $file_name)
 {
     $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
     $args = func_get_args();
 
     $args = array_map(function ($value) {
-        return trim($value);
+        return is_array($value) ? $value : trim($value);
     }, $args);
+
+    // Check if an image was uploaded
+    if (!empty($_FILES['image']['tmp_name'])) {
+        $file_name = trim($_FILES['image']['name']);
+        echo "Uploaded file name: " . $file_name; // Debug output
+        $image_path = "/uploads/" . basename($file_name);
+    
+        move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER["DOCUMENT_ROOT"] . $image_path);
+    } else {
+        $image_path = "/uploads/default.jpg"; // Default image if no image uploaded
+        echo "No image uploaded"; // Debug output
+    }
+    
 
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -46,7 +60,10 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         $genderValue = 1;
     } elseif ($gender == 'non-binary') {
         $genderValue = 2;
+    } else {
+        return "Invalid gender";
     }
+
     // liked_gender transform to tinyint for the database 
     if ($liked_gender == 'female') {
         $likedGenderValue = 0;
@@ -56,22 +73,33 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         $likedGenderValue = 2;
     }
 
-    //Hash password
+    // Hash password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $uuid = guidv4();
+
     // post to the database
-    $stmt = $conn->prepare("INSERT INTO users (uuid, username, email, password_hash, gender, liked_gender, age, bio) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssssss", $uuid, $username, $email, $hashed_password, $genderValue, $likedGenderValue, $age, $bio);
+    $stmt = $conn->prepare("INSERT INTO users (uuid, username, email, password_hash, gender, liked_gender, age, bio, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssssss", $uuid, $username, $email, $hashed_password, $genderValue, $likedGenderValue, $age, $bio, $image_path);
     $stmt->execute();
 
+    // Update the binder object with the image URL
+    $binder = new stdClass();
+    $binder->getUsername = function () use ($username) {
+        return $username;
+    };
+    $binder->getImage = function () use ($image_path) {
+        return $image_path;
+    };
+
     if ($stmt->affected_rows != 1) {
-        header("location: /error.php?error=An+error+occured");
-        return;
+        header("location: /error.php?error=An+error+occurred");
+        exit();
     } else {
         header("location: /index.php");
-        return "success";
+        exit();
     }
 }
+
 
 //? Login 
 function login($email, $password)

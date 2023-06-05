@@ -22,7 +22,7 @@ if (isset($_GET['register'])) {
     $user_likedGender = $_POST['liked_gender'];
     $user_age = $_POST['age'];
     $user_bio = $_POST['bio'];
-    $response = registerUser($username, $user_email, $user_password, $user_gender, $user_likedGender, $user_age, $user_bio);
+    $response = registerUser($username, $user_email, $user_password, $user_gender, $user_likedGender, $user_age, $user_bio, $_FILES['image']);
 
     if ($response === "success") {
         login($username, $user_password);
