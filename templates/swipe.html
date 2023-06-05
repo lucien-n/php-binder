@@ -1,69 +1,148 @@
 <section id="swipe" class="w-full lg:w-2/3 h-full items-center flex">
-    <a href="/controllers/swipe.php?swipe=0&binder={{ binder.getUuid() }}"
-        class="rounded-full flex items-center justify-center shadow-md w-24 aspect-square">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="orange"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-slash">
-            <circle cx="12" cy="12" r="10"></circle>
-            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
-        </svg>
-    </a>
-    <section id="binder-profile" class="w-full h-2/3 flex flex-col border-2 rounded-md mx-10 shadow-md">
-        <header id="pic" class="w-full h-2/3 overflow-hidden">
-            {% if binder %}
-            <!-- <img src="{{ binder.getImage() }}" alt="user pic" "> -->
-            <img src="{{  binder.getImage() }}" alt="{{ binder.getUsername }}'s Image" class="h-full w-full object-cover"/>
-            {% else %}
-            <img src="https://placehold.co/600x400?text={{ binder.getUsername() }}" alt="user pic"
-                class="h-full w-full object-cover">
-            {% endif %}
-        </header>
-        <section id="content" class="p-3">
-            <div class="flex justify-between">
-                <h1 class="font-bold text-3xl">{{binder.getUsername()}}</h1>
-                <h2 class="opacity-80 italic text-2xl">
-                    {% if binder.getGender() == 0 %}
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M15 15.5C15 19.0899 12.0899 22 8.5 22C4.91015 22 2 19.0899 2 15.5C2 11.9101 4.91015 9 8.5 9C12.0899 9 15 11.9101 15 15.5Z"
-                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M15 2H22V9" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M13.5 10.5L22 2" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    {% elseif binder.getGender() == 1 %}
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M18.5 8.5C18.5 12.0899 15.5899 15 12 15C8.41015 15 5.5 12.0899 5.5 8.5C5.5 4.91015 8.41015 2 12 2C15.5899 2 18.5 4.91015 18.5 8.5Z"
-                            stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M7.5 19H16.5" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                        <path d="M12 22L12 15" stroke="#000000" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    {% else %}
-                    <svg fill="#000000" width="32" height="32" viewBox="0 0 256 256" id="Flat"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M140,84.90234v-21.416L157.419,74.2168a11.99986,11.99986,0,0,0,12.58789-20.4336L150.879,42l19.12781-11.7832A11.99986,11.99986,0,0,0,157.419,9.7832L128,27.90625,98.58105,9.7832A11.99986,11.99986,0,0,0,85.99316,30.2168L105.121,42,85.99316,53.7832A11.99987,11.99987,0,1,0,98.58105,74.2168L116,63.48633v21.416a80,80,0,1,0,24,0ZM128,220a56,56,0,1,1,56-56A56.06322,56.06322,0,0,1,128,220Z" />
-                    </svg>
-                    {% endif %}
-                </h2>
-            </div>
-            <h2 class="text-2xl italic">{{binder.getAge()}}</h2>
-            <br>
-            <p class="text-xl">
-                {{binder.getBio()}}
-            </p>
-        </section>
-    </section>
-    <a href="/controllers/swipe.php?swipe=1&binder={{ binder.getUuid() }}"
-        class="rounded-full flex items-center justify-center shadow-md w-24 aspect-square">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="red" stroke="red"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+  <a
+    href="/controllers/swipe.php?swipe=0&binder={{ binder.getUuid() }}"
+    class="rounded-full flex items-center justify-center shadow-md w-24 aspect-square"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="orange"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="feather feather-slash"
+    >
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
+    </svg>
+  </a>
+  <section
+    id="binder-profile"
+    class="w-full h-2/3 flex flex-col border-2 rounded-md mx-10 shadow-md"
+  >
+    <header id="pic" class="w-full h-2/3 overflow-hidden">
+      {% if binder %}
+      <img
+        src="{{ binder.getImage() }}"
+        alt="{{ binder.getUsername }}'s Image"
+        class="h-full w-full object-cover"
+      />
+      {% else %}
+      <img
+        src="https://placehold.co/600x400?text={{ binder.getUsername() }}"
+        alt="user pic"
+        class="h-full w-full object-cover"
+      />
+      {% endif %}
+    </header>
+
+    <section id="content" class="p-3">
+      <div class="flex justify-between">
+        <h1 class="font-bold text-3xl">{{binder.getUsername()}}</h1>
+        <h2 class="opacity-80 italic text-2xl">
+          {% if binder.getGender() == 0 %}
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
             <path
-                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
-            </path>
-        </svg>
-    </a>
+              d="M15 15.5C15 19.0899 12.0899 22 8.5 22C4.91015 22 2 19.0899 2 15.5C2 11.9101 4.91015 9 8.5 9C12.0899 9 15 11.9101 15 15.5Z"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M15 2H22V9"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M13.5 10.5L22 2"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {% elseif binder.getGender() == 1 %}
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18.5 8.5C18.5 12.0899 15.5899 15 12 15C8.41015 15 5.5 12.0899 5.5 8.5C5.5 4.91015 8.41015 2 12 2C15.5899 2 18.5 4.91015 18.5 8.5Z"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M7.5 19H16.5"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M12 22L12 15"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {% else %}
+          <svg
+            fill="#000000"
+            width="32"
+            height="32"
+            viewBox="0 0 256 256"
+            id="Flat"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M140,84.90234v-21.416L157.419,74.2168a11.99986,11.99986,0,0,0,12.58789-20.4336L150.879,42l19.12781-11.7832A11.99986,11.99986,0,0,0,157.419,9.7832L128,27.90625,98.58105,9.7832A11.99986,11.99986,0,0,0,85.99316,30.2168L105.121,42,85.99316,53.7832A11.99987,11.99987,0,1,0,98.58105,74.2168L116,63.48633v21.416a80,80,0,1,0,24,0ZM128,220a56,56,0,1,1,56-56A56.06322,56.06322,0,0,1,128,220Z"
+            />
+          </svg>
+          {% endif %}
+        </h2>
+      </div>
+      <h2 class="text-2xl italic">{{binder.getAge()}}</h2>
+      <br />
+      <p class="text-xl">{{binder.getBio()}}</p>
+    </section>
+  </section>
+  <a
+    href="/controllers/swipe.php?swipe=1&binder={{ binder.getUuid() }}"
+    class="rounded-full flex items-center justify-center shadow-md w-24 aspect-square"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      viewBox="0 0 24 24"
+      fill="red"
+      stroke="red"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="feather feather-heart"
+    >
+      <path
+        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+      ></path>
+    </svg>
+  </a>
 </section>

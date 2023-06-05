@@ -1,5 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_auth.php');
+require_once($_SERVER["DOCUMENT_ROOT"] . '/models/user_binder.php');
 
 //? Register **
 // generate UUid function
@@ -30,7 +31,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     if (!empty($_FILES['image']['tmp_name'])) {
         $file_name = trim($_FILES['image']['name']);
         echo "Uploaded file name: " . $file_name; // Debug output
-        $image_path = $_SERVER["DOCUMENT_ROOT"] . "/uploads/" . basename($file_name);
+        $image_path =  "/uploads/" . basename($file_name);
         move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
     } else {
         $image_path = "https://placehold.co/600x400?text=BinderUser"; // Default image if no image uploaded
