@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Chat</title>
+<style>
+  .message-sender {
+    background-color: #007AFF;
+    color: black;
+    align-self: flex-end;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+
+  .message-receiver {
+    background-color: rgb(226, 222, 222);
+    color: black;
+    align-self: flex-start;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="bg-orange-100 min-h-screen flex items-center justify-center m-2">
+  <div class="max-w-md w-full">
+    <div class="bg-white shadow-md rounded-lg px-6 py-4">
+      <h1 class="text-4xl text-center mb-4 shadow-md mb-4 m-5">Chat</h1>
+      <div class="flex flex-col space-y-10">
+        <div class="flex flex-col space-y-2" id="chat-messages">
+          <!-- Fake sender message -->
+          <div class="message-sender">
+            <span class="font-bold">{{ user.getUsername() }}</span>
+            <p>This is a fake sender message.</p>
+          </div>
+
+          <!-- Fake receiver message -->
+          <div class="message-receiver">
+            <span class="font-bold">{{ binder.getUsername() }}</span>
+            <p>This is a fake receiver message.</p>
+          </div>
+        </div>
+
+        <div class="flex">
+          <form id="message-form" action="/controllers/message.php" method="POST" class="flex-grow">
+            <input type="hidden" name="receiver_uuid" value="{{ receiver_uuid }}" />
+            <input
+              type="text"
+              name="message"
+              class="w-full rounded-lg border-gray-300 border px-4 py-2"
+              placeholder="Type your message..."
+            />
+          </form>
+          <button class="ml-2 bg-blue-500 text-white rounded-lg px-4 py-2" onclick="submitForm()">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function submitForm() {
+    // Submit the message form
+    document.getElementById("message-form").submit();
+  }
+</script>
+{% endblock %}

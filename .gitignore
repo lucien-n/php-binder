@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 vendor
 .env
+=======
+.env
+composer.lock
+vendor
+>>>>>>> c7fbeb990f9652b68493941b40bf5d41a4779623

@@ -63,7 +63,7 @@ function get_binder($conn, $user_uuid, $gender, $liked_gender)
 
 function binder_is_disliked_by_user($conn, $binder_uuid, $user_uuid)
 {
-    $statement = $conn->prepare('SELECT * FROM dislikes WHERE disliked_uuid = ? AND disliker_uuid = ? OR disliked_uuid = ? AND disliker_uuid = ?');
+    $statement = $conn->prepare('SELECT * FROM dislikes WHERE (disliked_uuid = ? AND disliker_uuid = ?) OR (disliked_uuid = ? AND disliker_uuid = ?)');
     $statement->execute([$binder_uuid, $user_uuid, $user_uuid, $binder_uuid]);
     $data = $statement->get_result()->fetch_row();
     return isset($data);

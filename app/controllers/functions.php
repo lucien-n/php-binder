@@ -32,6 +32,11 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     $stmt->store_result();
     if ($stmt->num_rows > 0) {
         header("location: /error.php?error=Email+already+exists");
+        exit();
+    }
+
+    if (strlen($username) > 50) {
+        return "Username is too long";
     }
 
     // gender transform to tinyint for the database 
@@ -108,6 +113,8 @@ function logout()
     session_unset(); // Unset all session variables
     session_destroy(); // Destroy the session
     unset($_SESSION["user"]);
+    header("Location: /auth/login.php");
+    exit;
 }
 
 

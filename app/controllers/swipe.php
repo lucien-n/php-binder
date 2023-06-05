@@ -1,7 +1,4 @@
 <?php
-if (!isset($_GET["swipe"]) || !isset($_GET["binder"]))
-    return;
-
 require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
 require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/db_functions.php");
 require_once($_SERVER["DOCUMENT_ROOT"] . "/models/user_auth.php");
@@ -10,8 +7,10 @@ session_start();
 
 $user = $_SESSION["user"];
 
-if (!isset($user) || !$user instanceof User)
+if (!isset($user) || !$user instanceof User || !isset($_GET["swipe"]) || !isset($_GET["binder"])) {
+    header("location: /index.php");
     return;
+}
 
 $binder_uuid = $_GET["binder"];
 $liked = $_GET["swipe"];
@@ -34,5 +33,6 @@ if ($liked == "1") {
     dislike_binder($conn, $user->getUuid(), $binder_uuid);
     delete_from_pending($conn, $binder_uuid, $user->getUuid());
 }
+
 header('location: /index.php');
 ?>
