@@ -12,8 +12,9 @@ function get_user_pending_like($conn, $user_uuid)
     $statement = $conn->prepare('SELECT * FROM pending WHERE liked_uuid = ? LIMIT 1');
     $statement->execute([$user_uuid]);
     $data = $statement->get_result()->fetch_assoc();
-    if (isset($data))
+    if ($data && isset($data[0])) {
         return $data[0];
+    }
     return null;
 }
 
@@ -50,16 +51,20 @@ function get_binder($conn, $user_uuid, $gender, $liked_gender)
         $i++;
         $binder_uuid = get_binder_uuid_not_disliked_not_matched_not_pending($conn, $user_uuid);
         $binder = get_binder_by_uuid($conn, $binder_uuid);
-        $binder_gender = $binder[5];
-        $binder_liked_gender = $binder[6];
 
-        if ($binder_liked_gender == 2 && $liked_gender == $binder_gender || $liked_gender == 2) {
-            return $binder_uuid;
-        } elseif ($binder_liked_gender == $gender && $binder_gender == $liked_gender) {
-            return $binder_uuid;
+        if (isset($binder[5]) && isset($binder[6])) {
+            $binder_gender = $binder[5];
+            $binder_liked_gender = $binder[6];
+
+            if ($binder_liked_gender == 2 && $liked_gender == $binder_gender || $liked_gender == 2) {
+                return $binder_uuid;
+            } elseif ($binder_liked_gender == $gender && $binder_gender == $liked_gender) {
+                return $binder_uuid;
+            }
         }
     }
 }
+
 
 function binder_is_disliked_by_user($conn, $binder_uuid, $user_uuid)
 {
