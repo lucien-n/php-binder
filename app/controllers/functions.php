@@ -31,12 +31,14 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     if (!empty($_FILES['image']['tmp_name'])) {
         $file_name = trim($_FILES['image']['name']);
         echo "Uploaded file name: " . $file_name; // Debug output
-        $image_path =  "/uploads/" . basename($file_name);
-        move_uploaded_file($_FILES['image']['tmp_name'], $image_path);
+        $image_path = "/uploads/" . basename($file_name);
+    
+        move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER["DOCUMENT_ROOT"] . $image_path);
     } else {
-        $image_path = "https://placehold.co/600x400?text=BinderUser"; // Default image if no image uploaded
+        $image_path = "/uploads/default.jpg"; // Default image if no image uploaded
         echo "No image uploaded"; // Debug output
     }
+    
 
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -81,7 +83,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     $stmt = $conn->prepare("INSERT INTO users (uuid, username, email, password_hash, gender, liked_gender, age, bio, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("sssssssss", $uuid, $username, $email, $hashed_password, $genderValue, $likedGenderValue, $age, $bio, $image_path);
     $stmt->execute();
-    
+
     // Update the binder object with the image URL
     $binder = new stdClass();
     $binder->getUsername = function () use ($username) {
@@ -90,12 +92,13 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
     $binder->getImage = function () use ($image_path) {
         return $image_path;
     };
+
     if ($stmt->affected_rows != 1) {
         header("location: /error.php?error=An+error+occurred");
-        return;
+        exit();
     } else {
         header("location: /index.php");
-        return "success";
+        exit();
     }
 }
 
