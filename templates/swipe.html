@@ -9,8 +9,9 @@
     </a>
     <section id="binder-profile" class="w-full h-2/3 flex flex-col border-2 rounded-md mx-10 shadow-md">
         <header id="pic" class="w-full h-2/3 overflow-hidden">
-            {% if binder.getImage() %}
-            <img src="{{ binder.getImage() }}" alt="user pic" class="h-full w-full object-cover">
+            {% if binder %}
+            <!-- <img src="{{ binder.getImage() }}" alt="user pic" "> -->
+            <img src="{{  binder.getImage() }}" alt="{{ binder.getUsername }}'s Image" class="h-full w-full object-cover"/>
             {% else %}
             <img src="https://placehold.co/600x400?text={{ binder.getUsername() }}" alt="user pic"
                 class="h-full w-full object-cover">

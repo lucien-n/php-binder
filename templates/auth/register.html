@@ -56,7 +56,9 @@
       Already have an account ?
       <a href="/auth/login.php" class="underline">Sign in</a>
     </h1>
-    <p id="error" class="text-lg text-center text-red-500 italic"></p>
+    <p id="error" class="text-lg text-center text-red-500 italic">
+      {{ error_message }}
+    </p>
     <form
       action="/controllers/auth.php?register"
       method="POST"
