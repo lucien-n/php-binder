@@ -32,13 +32,13 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         $file_name = trim($_FILES['image']['name']);
         echo "Uploaded file name: " . $file_name; // Debug output
         $image_path = "/uploads/" . basename($file_name);
-    
+
         move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER["DOCUMENT_ROOT"] . $image_path);
     } else {
         $image_path = "/uploads/default.jpg"; // Default image if no image uploaded
         echo "No image uploaded"; // Debug output
     }
-    
+
 
     $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
@@ -95,7 +95,7 @@ function registerUser($username, $email, $password, $gender, $liked_gender, $age
         header("location: /error.php?error=An+error+occurred");
         exit();
     } else {
-        header("location: /index.php");
+        header("location: /auth/login.php");
         exit();
     }
 }
@@ -144,6 +144,79 @@ function logout()
     header("Location: /auth/login.php");
     exit;
 }
+
+//? Update
+function updateUsername($userUuid, $newUsername)
+{
+    $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
+
+    $sql = "UPDATE users SET username = ? WHERE uuid = ?";
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param('ss', $newUsername, $userUuid);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            echo "Error: " . $stmt->error;
+            return false;
+        }
+    }
+}
+function updateBio($userUuid, $newBio)
+{
+    $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
+
+    $sql = "UPDATE users SET bio = ? WHERE uuid = ?";
+    $stmt = $conn->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param('ss', $newBio, $userUuid);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        } else {
+            echo "Error: " . $stmt->error;
+            return false;
+        }
+    }
+}
+
+//? Delete
+
+function deleteAccount($userUuid) {
+    $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
+
+    // Delete the user's account from the 'users' table
+    $deleteUserSql = "DELETE FROM users WHERE uuid = ?";
+    $stmt = $conn->prepare($deleteUserSql);
+    
+    if ($stmt) {
+        $stmt->bind_param('s', $userUuid);
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            // Account deletion successful
+            return true;
+        } else {
+            // Account deletion failed
+            echo "Error: " . $stmt->error;
+            return false;
+        }
+    }
+    
+    // Error occurred during the deletion process
+    return false;
+}
+
+
+
+
+
+
 
 
 ?>

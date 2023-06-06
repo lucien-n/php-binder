@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block head %}
+<title>Profile</title>
+{% endblock %} {% block body %}
+<h1 class="text-center mx-auto w-full text-3xl font-bold my-4">Your profile</h1>
+<div class="myprofile bg-slate-200 p-2">
+  <p>Email: {{ user.getEmail() }}</p>
+  <p>Username: {{ user.getUsername() }}</p>
+  <p>Bio: {{ user.getBio() }}</p>
+ 
+  <form action="/auth/update.php" method="POST">
+    <input type="hidden" name="action" value="update_username">
+    <label for="new-username" class="block mb-2">Update Username:</label>
+    <input
+      type="text"
+      id="new-username"
+      name="new_username"
+      placeholder="Enter new username"
+      class="border border-gray-300 rounded px-3 py-2 w-64"
+    />
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2"
+    >
+      Submit
+    </button>
+  </form>
+  <form action="/auth/update.php" method="POST">
+    <input type="hidden" name="action" value="update_bio">
+    <label for="new-bio" class="block mb-2">Update Bio:</label>
+    <textarea
+      id="new-bio"
+      name="new_bio"
+      placeholder="Enter new bio"
+      class="border border-gray-300 rounded px-3 py-2 w-64"
+    ></textarea>
+    <button
+      type="submit"
+      class="bg-blue-500 hover:bg-blue-600 text-white rounded px-4 py-2"
+    >
+      Submit
+    </button>
+  </form>
+  <form action="/auth/delete.php" method="POST">
+    <input type="hidden" name="action" value="delete_account">
+    <button name="delete_account" type="submit" class="bg-blue-500 hover:bg-blue-400 text-white rounded px-4 py-2">
+        Delete Account
+    </button>
+</form>
+
+</div>
+{% endblock %}

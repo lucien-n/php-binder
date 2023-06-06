@@ -33,7 +33,10 @@ if (isset($user) && $user instanceof User) {
         $binder_user = new UserBinder($potential_binder[1], $potential_binder[4], $potential_binder[5], $potential_binder[6], $potential_binder[7], $potential_binder[8], $potential_binder[9], $potential_binder[10], $potential_binder[12]);
     }
 }
-
+if (isset($_GET['message'])) {
+    $message = $_GET['message'];
+    echo "<p class='success-message'>$message</p>";
+}
 $index_html = $twig->load('index.html');
 echo $index_html->render(['binder' => $binder_user, 'user' => $user]);
 ?>
