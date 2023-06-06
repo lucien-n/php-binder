@@ -120,20 +120,23 @@ function login($email, $password)
 
     if ($data == NULL) {
         header('location: /error.php?error=Wrong+email+or+password');
+        exit;
     }
 
     if (!isset($data['password_hash'])) {
-        header('location: /error.php?error=Wrong+email+or+password');
+        header('location: /error.php?error=Wrong+password');
+        exit;
     }
 
     if (password_verify($password, $data["password_hash"]) == FALSE) {
-        header('location: /error.php?error=Wrong+email+or+password');
-        return false;
+        header('location: /error.php?error=Wrong+password');
+        exit;
     } else {
         $_SESSION["user"] = new User($data['id'], $data['uuid'], $data['username'], $data['password_hash'], $data['email'], $data['gender'], $data['liked_gender'], $data['image'], $data['age'], $data['bio'], $data['created_at'], $data['updated_at'], $data['last_seen']);
         return true;
     }
 }
+
 //? Logout 
 
 function logout()
@@ -224,19 +227,4 @@ function deleteAccount($userUuid)
     // Destroy session
     session_destroy();
 }
-
-// Usage
-$userUuid = $_SESSION['user']->getUuid();
-deleteAccount($userUuid);
-header("Location: /index.php?message=Account+deleted+successfully");
-exit;
-
-
-
-
-
-
-
-
-
 ?>
