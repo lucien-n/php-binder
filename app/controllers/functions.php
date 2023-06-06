@@ -186,31 +186,51 @@ function updateBio($userUuid, $newBio)
 }
 
 //? Delete
-
-function deleteAccount($userUuid) {
+session_start();
+function deleteAccount($userUuid)
+{
     $conn = require_once($_SERVER["DOCUMENT_ROOT"] . "/utils/connection.php");
 
-    // Delete the user's account from the 'users' table
-    $deleteUserSql = "DELETE FROM users WHERE uuid = ?";
-    $stmt = $conn->prepare($deleteUserSql);
-    
-    if ($stmt) {
-        $stmt->bind_param('s', $userUuid);
-        $stmt->execute();
-        
-        if ($stmt->affected_rows > 0) {
-            // Account deletion successful
-            return true;
-        } else {
-            // Account deletion failed
-            echo "Error: " . $stmt->error;
-            return false;
-        }
-    }
-    
-    // Error occurred during the deletion process
-    return false;
+    // Delete likes
+    $sqlLikes = "DELETE FROM pending WHERE liker_uuid = ? OR liked_uuid = ?";
+    $stmtLikes = $conn->prepare($sqlLikes);
+    $stmtLikes->bind_param('ss', $userUuid, $userUuid);
+    $stmtLikes->execute();
+
+    // Delete matches
+    $sqlMatches = "DELETE FROM matchs WHERE uuid_one = ? OR uuid_two = ?";
+    $stmtMatches = $conn->prepare($sqlMatches);
+    $stmtMatches->bind_param('ss', $userUuid, $userUuid);
+    $stmtMatches->execute();
+
+    // Delete dislikes
+    $sqlDislikes = "DELETE FROM dislikes WHERE disliker_uuid = ? OR disliked_uuid = ?";
+    $stmtDislikes = $conn->prepare($sqlDislikes);
+    $stmtDislikes->bind_param('ss', $userUuid, $userUuid);
+    $stmtDislikes->execute();
+
+    // Delete messages
+    $sqlMessages = "DELETE FROM messages WHERE sender_uuid = ? OR receiver_uuid = ?";
+    $stmtMessages = $conn->prepare($sqlMessages);
+    $stmtMessages->bind_param('ss', $userUuid, $userUuid);
+    $stmtMessages->execute();
+
+    // Delete account
+    $sqlAccount = "DELETE FROM users WHERE uuid = ?";
+    $stmtAccount = $conn->prepare($sqlAccount);
+    $stmtAccount->bind_param('s', $userUuid);
+    $stmtAccount->execute();
+
+    // Destroy session
+    session_destroy();
 }
+
+// Usage
+$userUuid = $_SESSION['user']->getUuid();
+deleteAccount($userUuid);
+header("Location: /index.php?message=Account+deleted+successfully");
+exit;
+
 
 
 
